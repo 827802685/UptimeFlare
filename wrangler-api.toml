@@ -1,4 +1,5 @@
-name = "uptimeflare"
+name = "uptime-api"
+main = "api-worker.ts"
 compatibility_date = "2025-04-02"
 compatibility_flags = [ "nodejs_compat" ]
 
