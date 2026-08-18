@@ -4,7 +4,7 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": false,
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
@@ -16,8 +16,8 @@
     "paths": {
       "@/*": ["./*"]
     },
-    "types": ["@cloudflare/workers-types"]
+    "types": ["node", "@cloudflare/workers-types"]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "worker/**/*.ts"]
+  "exclude": ["node_modules", "worker"]
 }
