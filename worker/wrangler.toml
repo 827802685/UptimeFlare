@@ -5,7 +5,7 @@ compatibility_flags = [ "nodejs_compat" ]
 
 [[kv_namespaces]]
 binding = "UPTIMEFLARE_KV"
-id = "YOUR_KV_NAMESPACE_ID"
+id = "1b169745203945cdafbf87f2220c7bc8"
 
 [[migrations]]
 tag = "v1"
