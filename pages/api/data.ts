@@ -1,6 +1,7 @@
 import { maintenances, workerConfig } from '@/uptime.config'
 import { NextRequest } from 'next/server'
 import { CompactedMonitorStateWrapper, getFromStore } from '@/worker/src/store'
+import { getCustomMonitors } from '@/util/customMonitors'
 
 export const runtime = 'edge'
 
@@ -25,7 +26,18 @@ export default async function handler(req: NextRequest): Promise<Response> {
 
   let monitors: any = {}
 
-  for (let monitor of workerConfig.monitors) {
+  const allMonitors = [
+    ...workerConfig.monitors,
+    ...(await getCustomMonitors(process.env as any)).map((m) => ({
+      id: m.id,
+      name: m.name,
+      target: m.target,
+      statusPageLink: m.statusPageLink || m.target,
+      method: m.method || 'GET',
+    })),
+  ]
+
+  for (let monitor of allMonitors) {
     const lastIncident = compactedState.getIncident(
       monitor.id,
       compactedState.incidentLen(monitor.id) - 1
