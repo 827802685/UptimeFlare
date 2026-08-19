@@ -43,5 +43,18 @@
   "Save": "保存",
   "Close": "关闭",
   "Reset": "重置",
-  "Back to top": "回到顶部"
+  "Back to top": "回到顶部",
+  "Username": "账号",
+  "Password": "密码",
+  "Login": "登录",
+  "Invalid credentials": "账号或密码错误",
+  "Settings tip": "可以调整排序、修改名字和域名、隐藏监控；也可以添加或删除自定义监控。隐藏的监控不计入整体状态统计。",
+  "New monitor name": "新监控名称",
+  "New monitor domain": "新监控域名",
+  "Add": "添加",
+  "Remove": "删除",
+  "Name and domain required": "名称和域名不能为空",
+  "Domain must start with http(s)://": "域名必须以 http(s):// 开头",
+  "Failed to add monitor": "添加监控失败",
+  "Failed to remove monitor": "删除监控失败"
 }
