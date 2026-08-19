@@ -3,10 +3,9 @@ main = "src/index.ts"
 compatibility_date = "2025-04-02"
 compatibility_flags = [ "nodejs_compat" ]
 
-[[d1_databases]]
-binding = "UPTIMEFLARE_D1"
-database_name = "uptimeflare_d1"
-database_id = "7968f3b6-46b4-40ed-bba8-3a477ad3519c"
+[[kv_namespaces]]
+binding = "UPTIMEFLARE_KV"
+id = "YOUR_KV_NAMESPACE_ID"
 
 [[migrations]]
 tag = "v1"
