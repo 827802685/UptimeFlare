@@ -37,6 +37,7 @@ export type MonitorTarget = {
   tooltip?: string
   statusPageLink?: string
   hideLatencyChart?: boolean
+  custom?: boolean
   expectedCodes?: number[]
   timeout?: number
   headers?: { [key: string]: string | number }
