@@ -43,5 +43,18 @@
   "Save": "Save",
   "Close": "Close",
   "Reset": "Reset",
-  "Back to top": "Back to top"
+  "Back to top": "Back to top",
+  "Username": "Username",
+  "Password": "Password",
+  "Login": "Login",
+  "Invalid credentials": "Invalid credentials",
+  "Settings tip": "Reorder, rename, change domain, or hide monitors. You can also add or remove custom monitors. Hidden monitors are excluded from the overall status.",
+  "New monitor name": "New monitor name",
+  "New monitor domain": "New monitor domain",
+  "Add": "Add",
+  "Remove": "Remove",
+  "Name and domain required": "Name and domain are required",
+  "Domain must start with http(s)://": "Domain must start with http(s)://",
+  "Failed to add monitor": "Failed to add monitor",
+  "Failed to remove monitor": "Failed to remove monitor"
 }
