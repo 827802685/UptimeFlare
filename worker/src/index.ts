@@ -65,8 +65,34 @@ const Worker = {
     type CheckResult = { id: string; location: string; status: { ping: number; up: boolean; err: string } }
     let checkQueue: Promise<CheckResult>[] = []
     let checkResult: Record<string, CheckResult> = {};
+
+    // Merge custom monitors (added from the status page settings) with config monitors
+    const activeMonitors = [...workerConfig.monitors]
+    try {
+      const customRaw = await env.UPTIMEFLARE_KV.get('custom_monitors')
+      if (customRaw) {
+        const custom = JSON.parse(customRaw)
+        if (Array.isArray(custom)) {
+          for (const m of custom) {
+            if (m && m.id && m.target) {
+              activeMonitors.push({
+                id: m.id,
+                name: m.name || m.id,
+                method: m.method || 'GET',
+                target: m.target,
+                statusPageLink: m.statusPageLink || m.target,
+                custom: true,
+              })
+            }
+          }
+        }
+      }
+    } catch (e) {
+      console.log('Error reading custom monitors:', e)
+    }
+
     const limit = pLimit(5);
-    for (const monitor of workerConfig.monitors) {
+    for (const monitor of activeMonitors) {
       checkQueue.push(limit(() => doMonitor(monitor, workerLocation, env)))
     }
     for (const result of await Promise.all(checkQueue)) {
@@ -74,7 +100,7 @@ const Worker = {
     }
 
     // Update each monitor's state based on check results
-    for (const monitor of workerConfig.monitors) {
+    for (const monitor of activeMonitors) {
       console.log(`Processing monitor result: ${monitor.name} (${monitor.id})`)
 
       let monitorStatusChanged = false
