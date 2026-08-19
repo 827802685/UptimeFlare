@@ -37,14 +37,25 @@ export default function SettingsModal({
   useEffect(() => {
     if (!opened) return
     const order = settings.order.length ? settings.order : monitors.map((m) => m.id)
-    setRows(
-      monitors.map((m) => ({
-        id: m.id,
-        name: settings.names[m.id] || m.name,
-        domain: settings.domains[m.id] || m.statusPageLink || '',
-        hidden: !!settings.hidden[m.id],
-      }))
+    const rowMap = new Map(
+      monitors.map((m) => [
+        m.id,
+        {
+          id: m.id,
+          name: settings.names[m.id] || m.name,
+          domain: settings.domains[m.id] || m.statusPageLink || '',
+          hidden: !!settings.hidden[m.id],
+        },
+      ])
     )
+    // Sort by saved order first, then append any monitors not present in the saved order
+    const sorted = order
+      .map((id) => rowMap.get(id))
+      .filter(Boolean) as Row[]
+    const rest = monitors
+      .filter((m) => !order.includes(m.id))
+      .map((m) => rowMap.get(m.id)!)
+    setRows([...sorted, ...rest])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [opened])
 
