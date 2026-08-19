@@ -11,6 +11,7 @@ import MaintenanceAlert from '@/components/MaintenanceAlert'
 import NoIncidentsAlert from '@/components/NoIncidents'
 import { useDisplaySettings } from '@/components/DisplaySettingsProvider'
 import { CompactedMonitorStateWrapper, getFromStore } from '@/worker/src/store'
+import { getCustomMonitors } from '@/util/customMonitors'
 import { useTranslation } from 'react-i18next'
 
 export const runtime = 'experimental-edge'
@@ -170,10 +171,19 @@ export default function IncidentsPage({
 export async function getServerSideProps() {
   const { workerConfig } = await import('@/uptime.config')
   const compactedStateStr = await getFromStore(process.env as any, 'state')
+  const customMonitors = await getCustomMonitors(process.env as any)
   // Only present these values to client
-  const monitors: MonitorTarget[] = workerConfig.monitors.map((monitor) => ({
-    id: monitor.id,
-    name: monitor.name,
-  })) as MonitorTarget[]
+  const monitors: MonitorTarget[] = [
+    ...workerConfig.monitors.map((monitor) => ({
+      id: monitor.id,
+      name: monitor.name,
+    })),
+    ...customMonitors.map((m) => ({
+      id: m.id,
+      name: m.name,
+      statusPageLink: m.statusPageLink || m.target,
+      custom: true,
+    })),
+  ] as MonitorTarget[]
   return { props: { monitors, compactedStateStr } }
 }
