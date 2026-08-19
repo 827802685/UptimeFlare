@@ -49,14 +49,24 @@ export function clearSettings() {
 }
 
 export function applySettings(monitors: MonitorTarget[], settings: DisplaySettings): MonitorTarget[] {
-  const order =
-    settings.order && settings.order.length > 0 ? settings.order : monitors.map((m) => m.id)
-  return monitors
-    .filter((m) => !settings.hidden[m.id])
+  const order = settings.order.filter((id) => monitors.some((m) => m.id === id))
+  const visible = monitors.filter((m) => !settings.hidden[m.id])
+  if (order.length === 0) {
+    return visible.map((m) => ({
+      ...m,
+      name: settings.names[m.id] || m.name,
+      statusPageLink: settings.domains[m.id] || m.statusPageLink,
+    }))
+  }
+  const orderIndex = (id: string) => {
+    const idx = order.indexOf(id)
+    return idx === -1 ? Number.MAX_SAFE_INTEGER : idx
+  }
+  return visible
     .map((m) => ({
       ...m,
       name: settings.names[m.id] || m.name,
       statusPageLink: settings.domains[m.id] || m.statusPageLink,
     }))
-    .sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id))
+    .sort((a, b) => orderIndex(a.id) - orderIndex(b.id))
 }
