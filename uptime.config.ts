@@ -7,7 +7,7 @@ import { MaintenanceConfig, PageConfig, WorkerConfig } from './types/config'
 const pageConfig: PageConfig = {
   title: "zjkl's Status Page",
   links: [
-    { link: 'https://github.com/zjkl0330', label: 'GitHub', highlight: true },
+    { link: 'https://github.com/827802685', label: 'GitHub', highlight: true },
   ],
 }
 
@@ -24,7 +24,7 @@ const workerConfig: WorkerConfig = {
     },
     {
       id: 'clist_cf',
-      name: '云盘(clist-cf)',
+      name: '云盘',
       method: 'GET',
       target: 'https://clist.zjkl0330.dpdns.org',
       statusPageLink: 'https://clist.zjkl0330.dpdns.org',
@@ -32,23 +32,15 @@ const workerConfig: WorkerConfig = {
     },
     {
       id: 'freellmapi_cf',
-      name: '免费模型(freellmapi-cf)',
+      name: '免费模型',
       method: 'GET',
       target: 'https://api.zjkl0330.dpdns.org',
       statusPageLink: 'https://api.zjkl0330.dpdns.org',
       timeout: 10000,
     },
     {
-      id: 'hello',
-      name: 'Hello',
-      method: 'GET',
-      target: 'https://hello.827802685.workers.dev',
-      statusPageLink: 'https://hello.827802685.workers.dev',
-      timeout: 10000,
-    },
-    {
       id: 'modelradar',
-      name: 'RSS免费模型(modelradar)',
+      name: 'RSS免费模型',
       method: 'GET',
       target: 'https://rss.zjkl.dpdns.org',
       statusPageLink: 'https://rss.zjkl.dpdns.org',
@@ -56,7 +48,7 @@ const workerConfig: WorkerConfig = {
     },
     {
       id: 'nextchat',
-      name: 'Chat(nextchat)',
+      name: 'Chat',
       method: 'GET',
       target: 'https://chat.zjkl.dpdns.org',
       statusPageLink: 'https://chat.zjkl.dpdns.org',
@@ -64,7 +56,7 @@ const workerConfig: WorkerConfig = {
     },
     {
       id: 'password_2',
-      name: 'UUID生成器(password-2)',
+      name: 'UUID生成器',
       method: 'GET',
       target: 'https://uuid.zjkl0426.dpdns.org',
       statusPageLink: 'https://uuid.zjkl0426.dpdns.org',
@@ -72,18 +64,10 @@ const workerConfig: WorkerConfig = {
     },
     {
       id: 'ra2web',
-      name: '红警(ra2web)',
+      name: '红警',
       method: 'GET',
       target: 'https://ra2web.827802685.workers.dev',
       statusPageLink: 'https://ra2web.827802685.workers.dev',
-      timeout: 10000,
-    },
-    {
-      id: 'starfighter',
-      name: 'Starfighter',
-      method: 'GET',
-      target: 'https://xjzj.zjkl0716.dpdns.org/highscore',
-      statusPageLink: 'https://xjzj.zjkl0716.dpdns.org',
       timeout: 10000,
     },
     {
@@ -104,7 +88,7 @@ const workerConfig: WorkerConfig = {
     },
     {
       id: 'web_clipboard_big',
-      name: '剪贴板(web-clipboard大)',
+      name: '剪贴板',
       method: 'GET',
       target: 'https://jtb.zjkl0716.dpdns.org',
       statusPageLink: 'https://jtb.zjkl0716.dpdns.org',
@@ -114,7 +98,7 @@ const workerConfig: WorkerConfig = {
     // ===== 大号 Pages =====
     {
       id: 'moon_tv',
-      name: '电视(moon)',
+      name: '电视',
       method: 'GET',
       target: 'https://moon.zjkl.dpdns.org',
       statusPageLink: 'https://moon.zjkl.dpdns.org',
@@ -122,7 +106,7 @@ const workerConfig: WorkerConfig = {
     },
     {
       id: 'tv_ty',
-      name: 'TV(ty)',
+      name: 'TV',
       method: 'GET',
       target: 'https://tv.zjkl0426.dpdns.org',
       statusPageLink: 'https://tv.zjkl0426.dpdns.org',
@@ -130,7 +114,7 @@ const workerConfig: WorkerConfig = {
     },
     {
       id: 'telegraph_image',
-      name: '图盘(telegraph-image)',
+      name: '图盘',
       method: 'GET',
       target: 'https://img.zjkl0330.dpdns.org',
       statusPageLink: 'https://img.zjkl0330.dpdns.org',
@@ -138,7 +122,7 @@ const workerConfig: WorkerConfig = {
     },
     {
       id: 'newsnow',
-      name: '新闻聚合(newsnow)',
+      name: '新闻聚合',
       method: 'GET',
       target: 'https://news.zjkl0330.dpdns.org',
       statusPageLink: 'https://news.zjkl0330.dpdns.org',
@@ -146,7 +130,7 @@ const workerConfig: WorkerConfig = {
     },
     {
       id: 'sink',
-      name: '短链(sink)',
+      name: '短链',
       method: 'GET',
       target: 'https://zjkl0330.dpdns.org',
       statusPageLink: 'https://zjkl0330.dpdns.org',
@@ -154,7 +138,7 @@ const workerConfig: WorkerConfig = {
     },
     {
       id: 'herta_kuru',
-      name: '黑塔转圈圈(herta-kuru)',
+      name: '黑塔转圈圈',
       method: 'GET',
       target: 'https://htzq.zjkl0330.dpdns.org',
       statusPageLink: 'https://htzq.zjkl0330.dpdns.org',
@@ -162,7 +146,7 @@ const workerConfig: WorkerConfig = {
     },
     {
       id: 'magic_sudoku',
-      name: 'Magic Sudoku',
+      name: '数独',
       method: 'GET',
       target: 'https://magic-sudoku.pages.dev',
       statusPageLink: 'https://magic-sudoku.pages.dev',
@@ -172,7 +156,7 @@ const workerConfig: WorkerConfig = {
     // ===== 小号 Workers =====
     {
       id: 'rin_server',
-      name: '博客(rin-server)',
+      name: '博客',
       method: 'GET',
       target: 'https://rin-server.zjkl0501.workers.dev',
       statusPageLink: 'https://rin-server.zjkl0501.workers.dev',
@@ -180,7 +164,7 @@ const workerConfig: WorkerConfig = {
     },
     {
       id: 'mail',
-      name: '邮件(mail)',
+      name: '邮件',
       method: 'GET',
       target: 'https://mail.zjkl0501.workers.dev',
       statusPageLink: 'https://mail.zjkl0501.workers.dev',

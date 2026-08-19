@@ -33,5 +33,15 @@
   "All": "全部",
   "Select monitor": "选择监控",
   "Backwards": "← 上一月",
-  "Forward": "下一月 →"
+  "Forward": "下一月 →",
+  "Settings": "设置",
+  "Name": "名称",
+  "Domain": "域名",
+  "Hidden": "隐藏",
+  "Move up": "上移",
+  "Move down": "下移",
+  "Save": "保存",
+  "Close": "关闭",
+  "Reset": "重置",
+  "Back to top": "回到顶部"
 }

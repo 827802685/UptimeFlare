@@ -9,6 +9,8 @@ import Footer from '@/components/Footer'
 import { useEffect, useState } from 'react'
 import MaintenanceAlert from '@/components/MaintenanceAlert'
 import NoIncidentsAlert from '@/components/NoIncidents'
+import { useDisplaySettings } from '@/components/DisplaySettingsProvider'
+import { CompactedMonitorStateWrapper, getFromStore } from '@/worker/src/store'
 import { useTranslation } from 'react-i18next'
 
 export const runtime = 'experimental-edge'
@@ -54,8 +56,16 @@ function getPrevNextMonth(monthStr: string) {
   }
 }
 
-export default function IncidentsPage({ monitors }: { monitors: MonitorTarget[] }) {
+export default function IncidentsPage({
+  monitors,
+  compactedStateStr,
+}: {
+  monitors: MonitorTarget[]
+  compactedStateStr: string
+}) {
   const { t } = useTranslation('common')
+  const { apply } = useDisplaySettings()
+  const displayedMonitors = apply(monitors)
   const [selectedMonitor, setSelectedMonitor] = useState<string | null>('')
   const [selectedMonth, setSelectedMonth] = useState(getSelectedMonth())
 
@@ -65,7 +75,30 @@ export default function IncidentsPage({ monitors }: { monitors: MonitorTarget[] 
     return () => window.removeEventListener('hashchange', onHashChange)
   }, [])
 
-  const filteredIncidents = filterIncidentsByMonth(maintenances, selectedMonth, monitors)
+  // Build real incident history from worker state
+  let stateIncidents: MaintenanceConfig[] = []
+  try {
+    const state = new CompactedMonitorStateWrapper(compactedStateStr).uncompact()
+    for (const monitor of displayedMonitors) {
+      const incidents = state.incident[monitor.id] || []
+      for (const incident of incidents) {
+        if (incident.error[0] === 'dummy') continue
+        stateIncidents.push({
+          monitors: [monitor.id],
+          title: monitor.name,
+          body: incident.error[0] || 'Unknown error',
+          start: incident.start[0] * 1000,
+          end: incident.end === null ? undefined : incident.end * 1000,
+          color: 'red',
+        })
+      }
+    }
+  } catch {
+    // ignore
+  }
+
+  const allIncidents = [...maintenances, ...stateIncidents]
+  const filteredIncidents = filterIncidentsByMonth(allIncidents, selectedMonth, displayedMonitors)
   const monitorFilteredIncidents = selectedMonitor
     ? filteredIncidents.filter((i) => i.monitors.find((e) => e.id === selectedMonitor))
     : filteredIncidents
@@ -74,7 +107,7 @@ export default function IncidentsPage({ monitors }: { monitors: MonitorTarget[] 
 
   const monitorOptions = [
     { value: '', label: t('All') },
-    ...monitors.map((monitor) => ({
+    ...displayedMonitors.map((monitor) => ({
       value: monitor.id,
       label: monitor.name,
     })),
@@ -92,6 +125,7 @@ export default function IncidentsPage({ monitors }: { monitors: MonitorTarget[] 
           style={{
             marginBottom: '40px',
           }}
+          monitors={monitors}
         />
         <Center>
           <Container size="md" style={{ width: '100%' }}>
@@ -135,10 +169,11 @@ export default function IncidentsPage({ monitors }: { monitors: MonitorTarget[] 
 
 export async function getServerSideProps() {
   const { workerConfig } = await import('@/uptime.config')
+  const compactedStateStr = await getFromStore(process.env as any, 'state')
   // Only present these values to client
   const monitors: MonitorTarget[] = workerConfig.monitors.map((monitor) => ({
     id: monitor.id,
     name: monitor.name,
   })) as MonitorTarget[]
-  return { props: { monitors } }
+  return { props: { monitors, compactedStateStr } }
 }
