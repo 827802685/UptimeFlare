@@ -12,6 +12,42 @@ export interface Env {
 }
 
 const Worker = {
+  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+    const url = new URL(request.url)
+    
+    // API 路由
+    if (url.pathname === '/api/data' || url.pathname === '/api/badge') {
+      try {
+        const stateStr = await env.UPTIMEFLARE_KV.get('state')
+        if (!stateStr) {
+          return new Response(JSON.stringify({ error: 'No data available', monitors: {} }), {
+            headers: { 'Content-Type': 'application/json' }
+          })
+        }
+        const state = JSON.parse(stateStr)
+        return new Response(JSON.stringify({
+          up: state.overallUp || 0,
+          down: state.overallDown || 0,
+          updatedAt: state.lastUpdate || 0,
+          monitors: {}
+        }), {
+          headers: { 
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          }
+        })
+      } catch (e) {
+        return new Response(JSON.stringify({ error: (e as Error).message }), {
+          headers: { 'Content-Type': 'application/json' },
+          status: 500
+        })
+      }
+    }
+    
+    return new Response('UptimeFlare Worker', {
+      headers: { 'Content-Type': 'text/plain' }
+    })
+  },
   async scheduled(event: ScheduledEvent, env: Env, ctx: ExecutionContext): Promise<void> {
     const workerLocation = (await getWorkerLocation()) || 'ERROR'
     console.log(`Running scheduled event on ${workerLocation}...`)
